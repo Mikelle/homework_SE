@@ -8,7 +8,8 @@
 
 int sign(int n)
 {
-	return (n >> 0x1F) + !(n >> 0x1F) + ~(!n + ~0);
+	int b = (n >> 0x1F);
+	return b + !b + ~(!n + ~0);
 }
 
 int main()

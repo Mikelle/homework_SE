@@ -8,7 +8,7 @@
 
 int fitsBits(int x, int n) {
 	int a, b;
-	b = 33 + ~n;
+	b = 0x21 + ~n;
 	a = !(((x << b) >> b) ^ x);
 	return a;
 }
