@@ -30,24 +30,6 @@ void add(point *pointer, int data) {
 	}
 }
 
-void delet(point *pointer, int data)
-{
-	while ((*pointer) -> next != NULL && ((*pointer) -> next) -> data != data)
-	{
-		(*pointer) = (*pointer) -> next;
-	} 
-	if ((*pointer) -> next == NULL)
-	{
-		printf("Element %d is not present in the List\n", data);
-		return;
-	}
-	point temp;
-	temp = (*pointer) -> next;
-	(*pointer) -> next = temp -> next;
-	free(temp);
-	return;
-}
-
 void remove(point *pointer, int data) {
 	
 	if ((*pointer) -> data == data) 
