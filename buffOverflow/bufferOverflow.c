@@ -1,3 +1,8 @@
+/*
+	Buffer Overflow
+	Author: Mikhail Wall
+*/
+
 #include <stdio.h>
 #include <string.h>
 
@@ -12,7 +17,7 @@ int checked(char password[])
     int pass = 0;
     char buffer[10];
     strcpy(buffer, password);
-    if (!(strcmp(buffer, "password"))) pass = 1;
+    if !(strcmp(buffer, "password")) pass = 1;
     return pass;
 }
 

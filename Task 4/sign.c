@@ -1,3 +1,8 @@
+/*
+	sign
+	Author: Mikhail Wall
+*/
+
 #include <cstdio>
 #include <iostream>
 

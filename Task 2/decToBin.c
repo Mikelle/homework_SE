@@ -1,3 +1,8 @@
+/* 
+	Decimal to Binary
+	Author: Mikhail Wall
+*/
+
 #include <iostream>
 #include <cstdio>
 

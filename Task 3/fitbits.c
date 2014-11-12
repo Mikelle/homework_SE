@@ -1,3 +1,8 @@
+/*
+	fitbits
+	Author: Mikhail Wall
+*/
+
 #include <iostream>
 #include <cstdio>
 
