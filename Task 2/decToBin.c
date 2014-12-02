@@ -8,15 +8,20 @@
 
 int main()
 {
-	
-	const int decToBin = sizeof(int) * 8;
-	int bitMask = 0x80000000, number = 0, i = 0;
-	scanf("%d", &number);
-	for (i = 0; i < bitsInInt; ++i)
+	int n, c, k; 
+	scanf("%d", &n);
+
+	for (c = 31; c >= 0; c--)
 	{
-		printf("%d", number & bitMask ? 1:0);
-		bitMask = (bitMask >> 1) & ~bitMask;
+		k = n >> c;
+
+		if (k & 1)
+			printf("1");
+		else
+			printf("0");
 	}
+
+	printf("\n");
 
 	return 0;
 }
