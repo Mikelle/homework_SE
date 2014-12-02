@@ -3,52 +3,38 @@
 	Author: Mikhail Wall
 */
 
-#include<stdio.h>
-#include<string.h>
- 
-int search(char[], char[]);
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
  
 int main() {
-	int loc;
-	char str[1000], subStr[100];
-	
-	scanf("%s", &str);
-	scanf("%s", &subStr);
- 
-	loc = search(str, subStr);
- 
-	if (loc == -1)
-		printf("\nNot found");
-	else
-		printf("\nFound at location %d", loc + 1);
- 
-	return 0;
-}
- 
-int search(char src[], char str[])
-{
-	int i, j, firstOcc;
-	i = 0, j = 0;
- 
-    while (src[i] != '\0')
+	int i, j, amount, k, lenString, lenSubString;
+	char string[100], subString[100];
+	printf("Input string\n");
+	scanf("%s", string);
+	printf("Input subString\n");
+	scanf("%s", subString);
+	lenString = strlen(string);
+	lenSubString = strlen(subString);
+	amount = 0;
+	for (i = 0; i <= lenString; i++)
 	{
- 
-		while (src[i] != str[0] && src[i] != '\0') i++;
- 
-		if (src[i] == '\0') return (-1);
- 
-		firstOcc = i;
- 
-		while (src[i] == str[j] && src[i] != '\0' && str[j] != '\0')
+		string[i] = tolower (string[i]);
+	}
+	for (j = 0; j <= (lenString - lenSubString); j++)
+	{
+		k = 0;
+		for (i = 0; i < lenSubString; i++)
 		{
-			i++;
-			j++;
+			if (string[j + i] != subString[i])
+			{
+				k = 1;
+			}
 		}
- 
-		if (str[j] == '\0') return (firstOcc);
-		if (src[i] == '\0') return (-1);
- 
-		i = firstOcc + 1;
-		j = 0;
-    }
+		if (k == 0)
+		{
+			amount++;
+		}
+	}
+	printf("Answer: %d\n", amount);
 }

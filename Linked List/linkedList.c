@@ -12,9 +12,9 @@ typedef struct List
 	struct List* next;
 };
 
-typedef struct List* point;
+typedef struct List* list ;
 
-void add(point *pointer, int data) {
+void add(list *pointer, int data) {
 	if (*pointer == NULL)
 	{
 		*pointer = (point)malloc(sizeof (struct List));
@@ -23,29 +23,29 @@ void add(point *pointer, int data) {
 	}
 	else 
 	{
-		point temp = (point)malloc(sizeof (struct List));
+		list temp = (point)malloc(sizeof (struct List));
 		temp -> data = data;
 		temp -> next = *pointer;
 		*pointer = temp;
 	}
 }
 
-void remove(point *pointer, int data) {
+void remove(list *pointer, int data) {
 	
 	if ((*pointer) -> data == data) 
 	{
-		point temp = *pointer;
+		list temp = *pointer;
 		*pointer = (*pointer) -> next;
 		free(temp);
 	}
 	else 
 	{
-		point head = *pointer;
+		list head = *pointer;
 		while ((*pointer) -> next -> data != data) 
 		{
 			(*pointer) = (*pointer) -> next;
 		}
-		point temp = (*pointer) -> next;
+		list temp = (*pointer) -> next;
 		(*pointer) -> next = (*pointer) -> next -> next;
 		free(temp);
 		*pointer = head;
@@ -57,7 +57,7 @@ void remove(point *pointer, int data) {
 	}
 }
 
-void print(point pointer)
+void print(list pointer)
 {
 	if (pointer == NULL)
 	{
@@ -71,7 +71,7 @@ void print(point pointer)
 
 int main(void) 
 {
-	point start = NULL;
+	list start = NULL;
 	char n = 0;
 
 	printf("1. Insert: a\n");
