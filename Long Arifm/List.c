@@ -1,3 +1,8 @@
+/* 
+   Linked List
+   Author: Mikhail Wall
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "List.h"
