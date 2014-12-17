@@ -1,3 +1,8 @@
+/*
+    Long Arithmetic
+    Author: Mikhail Wall
+*/
+
 #include <stdio.h>
 #include "LongArifm.h"
 #include "List.h"
