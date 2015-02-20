@@ -35,7 +35,6 @@ let rec deg a b =
 
 let main args = 
 
-  deg (S (S (S Zero))) (S (S Zero))    |> toInt
-                                       |> printfn "%A"
+  deg (S (S (S Zero))) (S (S Zero)) |> toInt |> printfn "%A"
   0
 
