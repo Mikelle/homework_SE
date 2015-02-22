@@ -18,6 +18,7 @@ let rec plus a b =
 let rec minus a b = 
   match a, b with
   | Zero, Zero -> Zero
+  | a, Zero -> a
   | S a, S b -> minus a b
 
 let rec mult a b =
