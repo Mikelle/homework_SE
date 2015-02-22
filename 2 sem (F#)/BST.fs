@@ -1,6 +1,7 @@
 ﻿// Binary Search Tree
 // Main operations
 // Author: Mikhail Wall
+// Expectation time: 1 hour, real time: 2 hours
 
 type Tree =
   | Empty
@@ -40,10 +41,46 @@ let rec treeRemove x tree =
         if left = Empty 
         then Node(findMin right, left, treeRemove (findMin right) right)
         else Node(findMin left, treeRemove (findMin left) left, right)
+        
+let rec printLCR tree =
+  match tree with 
+  | Empty -> ()
+  | Node (center, left, right) ->
+    printLCR left
+    printf "%d " center
+    printLCR right
 
-     
+let rec printLRC tree = 
+  match tree with 
+  | Empty -> ()
+  | Node (center, left, right) ->
+    printLRC left
+    printLRC right
+    printf "%d " center
+
+let rec printCLR tree = 
+  match tree with 
+  | Empty -> ()
+  | Node (center, left, right) ->
+    printf "%d " center
+    printCLR left
+    printCLR right
 
 [<EntryPoint>]
 let main argv = 
-    printfn "%A" argv
-    0 // return an integer exit code
+    let tree = treeInsert 2 Empty 
+    let tree = treeInsert 5 tree 
+    let tree = treeInsert 3 tree 
+    let tree = treeInsert 1 tree 
+    let tree = treeInsert 4 tree 
+    let tree = treeInsert 8 tree 
+    let tree = treeInsert 9 tree
+    let tree = treeRemove 2 tree
+    let tree = treeRemove 9 tree 
+    tree |> printLCR
+    printf "LCR\n"
+    tree |> printCLR
+    printf "CLR\n"
+    tree |> printLRC
+    printf "LCR\n"
+    0 
