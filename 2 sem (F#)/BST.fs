@@ -11,9 +11,7 @@ let rec treeInsert x tree =
   match x, tree with 
   | x, Empty -> Node (x, Empty, Empty)
   | x, Node (center, left, right) ->
-    if x = center
-    then Node (x, left, right)
-    else if x < center 
+    if x < center 
     then Node (center, treeInsert x left, right)
     else Node (center, left, treeInsert x right)
 
