@@ -33,12 +33,10 @@ let rec treeRemove x tree =
     else
       match left, right with 
       | Empty, Empty -> Empty
-      | Empty, right -> right
-      | left, Empty -> left
-      | left, right -> 
-        if left = Empty 
-        then Node(findMin right, left, treeRemove (findMin right) right)
-        else Node(findMin left, treeRemove (findMin left) left, right)
+      | Empty, Node (center1, left1, right1) -> Node (center1, left1, right1)
+      | Node (center2, left2, right2), Empty -> Node(center2, left2, right2) 
+      | left, Node(center2, Empty, right2) -> Node(center2, left, right2) 
+      | left, Node(center2, left2, right2) -> Node(findMin left2, left, treeRemove (findMin left2) (Node(center2, left2, right2))) 
         
 let rec printLCR tree =
   match tree with 
