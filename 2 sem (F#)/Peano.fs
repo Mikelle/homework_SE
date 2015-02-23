@@ -1,5 +1,6 @@
 ﻿// simple arithmetic for Peano numbers
 // Author: Mikhail Wall   
+// Expectation time: 15 min, real time: 15 min
 
 type Peano = Zero | S of Peano
 
@@ -17,7 +18,7 @@ let rec plus a b =
 
 let rec minus a b = 
   match a, b with
-  | Zero, Zero -> Zero
+  | Zero, _ -> Zero
   | a, Zero -> a
   | S a, S b -> minus a b
 
@@ -36,6 +37,6 @@ let rec deg a b =
 
 let main args = 
 
-  deg (S (S (S Zero))) (S (S Zero)) |> toInt |> printfn "%A"
+  minus (S (S (S Zero))) (S (S Zero)) |> toInt |> printfn "%A"
   0
 
