@@ -62,21 +62,54 @@ let rec printCLR tree =
     printCLR left
     printCLR right
 
+let rec printTree tree =
+    match tree with
+    | Empty -> ()
+    | Node(center, left, right) ->
+      printf "Node %i {" center
+      match left with 
+      | Empty -> printf "Leaf"
+      | l -> printTree l
+      printf "; "
+      match right with
+      | Empty -> printf "Leaf"
+      | l -> printTree right
+      printf "}"
+
 [<EntryPoint>]
 let main argv = 
     let tree = treeInsert 2 Empty 
-    let tree = treeInsert 5 tree 
+    printf "insert 2: "
+    printTree tree
+    let tree = treeInsert 5 tree
+    printf "\ninsert 5: "
+    printTree tree 
     let tree = treeInsert 3 tree 
+    printf "\ninsert 3: "
+    printTree tree
     let tree = treeInsert 1 tree 
+    printf "\ninsert 1: "
+    printTree tree 
     let tree = treeInsert 4 tree 
-    let tree = treeInsert 8 tree 
+    printf "\ninsert 4: "
+    printTree tree 
+    let tree = treeInsert 8 tree
+    printf "\ninsert 8: "
+    printTree tree
     let tree = treeInsert 9 tree
+    printf "\ninsert 9: "
+    printTree tree
     let tree = treeRemove 2 tree
-    let tree = treeRemove 9 tree 
+    printf "\nremove 2: "
+    printTree tree
+    let tree = treeRemove 9 tree
+    printf "\nremove 9: "
+    printTree tree 
+    printf "\n\nLCR: "
     tree |> printLCR
-    printf "LCR\n"
+    printf "\nCLR: "
     tree |> printCLR
-    printf "CLR\n"
+    printf "\nLCR: "
     tree |> printLRC
-    printf "LCR\n"
     0 
+
