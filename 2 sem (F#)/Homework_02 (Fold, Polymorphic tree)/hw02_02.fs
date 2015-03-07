@@ -88,12 +88,12 @@ let rec fold f a tree =
     | Node (center, left, right) -> 
       fold f (fold f (f a center) left) right
 
-// task 17: sum of the tree
-type Option<'A> = None | Some of 'A
- 
+// task 17: sum of the tree 
 let sum tree = fold (+) 0 tree
 
 // task 18: min of the tree
+type Option<'A> = None | Some of 'A
+
 let helpMin a b =
     match a with
     | None -> Some b
