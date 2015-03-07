@@ -29,11 +29,10 @@ let rec treeRemove x tree =
     | -1 -> Node (center, treeRemove x left, right) 
     | _->
       match left, right with 
-      | Empty, Empty -> Empty
-      | Empty, right -> right
-      | left, Empty -> left 
-      | left, Node(center1, Empty, right1) -> Node(center1, left, right1) 
-      | left, Node(center2, left2, right2) -> 
+      | Empty, _ -> right
+      | _, Empty -> left 
+      | _, Node(center1, Empty, right1) -> Node(center1, left, right1) 
+      | _, Node(center2, left2, right2) -> 
         Node(findMin left2, left, treeRemove (findMin left2) (Node(center2, left2, right2))) 
 
 let rec printLCR tree =
@@ -92,8 +91,6 @@ let rec fold f a tree =
 let sum tree = fold (+) 0 tree
 
 // task 18: min of the tree
-type Option<'A> = None | Some of 'A
-
 let helpMin a b =
     match a with
     | None -> Some b
