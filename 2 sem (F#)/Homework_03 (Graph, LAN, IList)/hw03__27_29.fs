@@ -7,6 +7,7 @@ type IList<'A when 'A : equality> =
     abstract RemoveTail : unit -> unit
     abstract RemoveAt   : int -> unit
     abstract TryFind    : ('A -> bool) -> Option<'A>
+    abstract Pop        : unit -> Option<'A>
     abstract Concat     : IList<'A> -> unit
   end
 
@@ -82,11 +83,21 @@ type ATDList<'A when 'A : equality>(L : List<'A>) =
             if x a then Some(a) else (f b)
         f list
 
+      member this.Pop() =
+        match list with
+        | Empty -> None 
+        | Node(a, _) ->
+          (this :> IList<'A>).RemoveHead() 
+          Some a
+
       member this.Concat lst  =
         let rec f l =
           match l with
-          | Empty -> (lst :?> ATDList<'A>).GetList()
           | Node(a, b) -> Node(a, f b)
+          | Empty -> 
+            match lst.Pop() with
+            | None -> Empty
+            | Some a -> Node(a, f l)
         list <- f list
   end
 
@@ -121,7 +132,22 @@ type ArrayList<'A when 'A : equality>(L : 'A[]) =
     
       member this.TryFind x = Array.tryFind x array
 
-      member this.Concat lst = array <- Array.append array ((lst :?> ArrayList<'A>).GetArray())
+      member this.Pop() =
+        match array with
+        | [||] -> None
+        | _ -> 
+          let temp = array.[0]
+          (this :> IList<'A>).RemoveHead()
+          Some temp
+
+      member this.Concat arr = 
+        let rec f (arr: IList<'A>) =
+          match arr.Pop() with 
+          | None -> ()
+          | Some a ->
+            array <- Array.append array [|a|]
+            f arr
+        f arr
   end
 
 [<EntryPoint>]
@@ -154,8 +180,8 @@ let main args =
   (list :> IList<int>).RemoveAt 3
   list.PrintList()
 
-  printf "Find node divisible by 3 : "
-  let x = (list :> IList<int>).TryFind (fun x -> x % 3 = 0 )
+  printf "Find node divisible by 2 : "
+  let x = (list :> IList<int>).TryFind (fun x -> x % 2 = 0 )
   match x with
   | None   -> printf "Not found\n"
   | Some x -> printf "%d\n" x
@@ -212,4 +238,6 @@ let main args =
   (arList :> IList<int>).Concat arList2
   arList.PrintArray()
 
-  0
+  0    
+    
+ 
