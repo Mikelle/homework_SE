@@ -42,13 +42,17 @@ let rec dfs (graph: IGraph<'A>) (visited: bool array) node f =
       res <- List.append res (dfs graph visited graph.Nodes.[i] f)
   res
 
-let availableFrom (graph: IGraph<'A>) node =
-  let visited = [|for i in 0..graph.Size - 1 -> false|]
-  dfs graph visited node 0
+let availableFrom (graph: IGraph<int>) node =
+  if (node < 0) || (node > graph.Size - 1) then printfn "Index out of range"; [-1]
+  else
+    let visited = [|for i in 0..graph.Size - 1 -> false|]
+    dfs graph visited node 0
 
-let availableIn (graph: IGraph<'A>) node =
-  let visited = [|for i in 0..graph.Size - 1 -> false|]
-  dfs graph visited node 1
+let availableIn (graph: IGraph<int>) node =
+  if (node < 0) || (node > graph.Size - 1) then printfn "Index out of range"; [-1]
+  else
+    let visited = [|for i in 0..graph.Size - 1 -> false|]
+    dfs graph visited node 1
 
 type ITGraph<'A, 'T> =
   interface
@@ -57,7 +61,8 @@ type ITGraph<'A, 'T> =
     abstract getTag: int -> 'T
   end
 
-let example = [|5; 8; 3; 9; 2; 1; 4;|] 
+let example = [|5; 6; 3; 9; 2; 1; 4;|] 
+let ex1 = [||]
 let fls = false
 let matrix = 
     [| 
@@ -72,148 +77,62 @@ let matrix =
 let arrayOfLists = [| []; [3; 4]; [9]; [3]; [1]; [5]; [2; 5; 9] |]
 
 let mgraph = new MGraph<int> (example, matrix)
+let emgraph = new MGraph<int> (ex1, matrix)
+
+let elgraph = new LGraph<int> (ex1, arrayOfLists)
 let lgraph = new LGraph<int> (example, arrayOfLists)
 
-[<Test>]  
-let ``Test 01: Nodes which available from node 1 (using MGraph)``() =
-  let a = availableFrom mgraph 1
-  Assert.AreEqual([5], a )
+[<TestCase(1, Result = [|5|])>]  
+[<TestCase(2, Result =[|1; 5|])>]
+[<TestCase(3, Result = [|9|])>]
+[<TestCase(4, Result = [|5; 9; 3; 2; 1|])>]
+[<TestCase(5, Result = [||])>]
+[<TestCase(100, Result = [|-1|], TestName = "Index out of range")>]
+let ``Test 01: Nodes which available from nodes (using MGraph)``ex  =
+  List.toArray(availableFrom mgraph ex)
 
-[<Test>]  
-let ``Test 02: Nodes which available from node 2 (using MGraph)``() =
-  let a = availableFrom mgraph 2
-  Assert.AreEqual([1; 5], a )
+[<TestCase(1, Result = [|5|])>]  
+[<TestCase(2, Result =[|1; 5|])>]
+[<TestCase(3, Result = [|9|])>]
+[<TestCase(4, Result = [|5; 9; 3; 2; 1|])>]
+[<TestCase(5, Result = [||])>]
+[<TestCase(100, Result = [|-1|], TestName = "Index out of range")>]
+let ``Test 02: Nodes which available from nodes (using LGraph)``ex =
+  List.toArray(availableFrom lgraph ex)
 
-[<Test>]  
-let ``Test 03: Nodes which available from node 3 (using MGraph)``() =
-  let a = availableFrom mgraph 3
-  Assert.AreEqual([9], a )
+[<TestCase(1, Result = [|2; 4; 6|])>]
+[<TestCase(2, Result = [|4; 6|])>]
+[<TestCase(3, Result = [|6; 9; 4|])>]
+[<TestCase(4, Result = [|6|])>]
+[<TestCase(5, Result = [|1; 2; 4; 6|])>]
+[<TestCase(100, Result = [|-1|], TestName = "Index out of range")>]
+let ``Test 03: Nodes which have access to nodes (using MGraph)``ex =
+  List.toArray(availableIn mgraph ex)
 
-[<Test>]  
-let ``Test 04: Nodes which available from node 4 (using MGraph)``() =
-  let a = availableFrom mgraph 4
-  Assert.AreEqual([5; 9; 3; 2; 1], a )
+[<TestCase(1, Result = [|2; 4; 6|])>]
+[<TestCase(2, Result = [|4; 6|])>]
+[<TestCase(3, Result = [|6; 9; 4|])>]
+[<TestCase(4, Result = [|6|])>]
+[<TestCase(5, Result = [|1; 2; 4; 6|])>]
+[<TestCase(100, Result = [|-1|], TestName = "Index out of range")>] 
+let ``Test 04: Nodes which have access to nodes (using LGraph)``ex =
+  List.toArray(availableIn lgraph ex)
 
-[<Test>]  
-let ``Test 05: Nodes which available from node 5 (using MGraph)``() =
-  let a = availableFrom mgraph 5
-  Assert.AreEqual([], a )
+[<TestCase(1, Result = [|-1|])>]
+let ``Test 05: Nodes which have access to nodes (using EmptyLGraph)``ex =
+  List.toArray(availableIn elgraph ex)
+  
+[<TestCase(1, Result = [|-1|])>]
+let ``Test 06: Nodes which have access to nodes (using EmptyMGraph)``ex =
+  List.toArray(availableIn emgraph ex)
 
-[<Test>]  
-let ``Test 06: Nodes which available from node 8 (using MGraph)``() =
-  let a = availableFrom mgraph 8
-  Assert.AreEqual([3; 9; 4; 5; 2; 1], a )
+[<TestCase(1, Result = [|-1|])>]
+let ``Test 07: Nodes which available from  to nodes (using EmptyLGraph)``ex =
+  List.toArray(availableFrom elgraph ex)
 
-[<Test>]  
-let ``Test 07: Nodes which available from node 9 (using MGraph)``() =
-  let a = availableFrom mgraph 9
-  Assert.AreEqual([3], a )
-
-[<Test>]  
-let ``Test 08: Nodes which available from node 1 (using LGraph)``() =
-  let a = availableFrom lgraph 1
-  Assert.AreEqual([5], a )
-
-[<Test>]  
-let ``Test 09: Nodes which available from node 2 (using LGraph)``() =
-  let a = availableFrom lgraph 2
-  Assert.AreEqual([1; 5], a )
-
-[<Test>]  
-let ``Test 10: Nodes which available from node 3 (using LGraph)``() =
-  let a = availableFrom lgraph 3
-  Assert.AreEqual([9], a )
-
-[<Test>]  
-let ``Test 11: Nodes which available from node 4 (using LGraph)``() =
-  let a = availableFrom lgraph 4
-  Assert.AreEqual([5; 9; 3; 2; 1], a )
-
-[<Test>]  
-let ``Test 12: Nodes which available from node 5 (using LGraph)``() =
-  let a = availableFrom lgraph 5
-  Assert.AreEqual([], a )
-
-[<Test>]  
-let ``Test 13: Nodes which available from node 8 (using LGraph)``() =
-  let a = availableFrom lgraph 8
-  Assert.AreEqual([3; 9; 4; 5; 2; 1], a )
-
-[<Test>]  
-let ``Test 14: Nodes which available from node 9 (using LGraph)``() =
-  let a = availableFrom lgraph 9
-  Assert.AreEqual([3], a )
-
-[<Test>]  
-let ``Test 15: Nodes which have access to node 1 (using MGraph)``() =
-  let a = availableIn mgraph 1
-  Assert.AreEqual([2; 4; 8], a )
-
-[<Test>]  
-let ``Test 16: Nodes which have access to node 2 (using MGraph)``() =
-  let a = availableIn mgraph 2
-  Assert.AreEqual([4; 8], a )
-
-[<Test>]  
-let ``Test 17: Nodes which have access to node 3 (using MGraph)``() =
-  let a = availableIn mgraph 3
-  Assert.AreEqual([8; 9; 4], a )
-
-[<Test>]  
-let ``Test 18: Nodes which have access to node 4 (using MGraph)``() =
-  let a = availableIn mgraph 4
-  Assert.AreEqual([8], a)
-
-[<Test>]  
-let ``Test 19: Nodes which have access to node 5 (using MGraph)``() =
-  let a = availableIn mgraph 5
-  Assert.AreEqual([1; 2; 4; 8], a)
-
-[<Test>]  
-let ``Test 20: Nodes which have access to node 8 (using MGraph)``() =
-  let a = availableIn mgraph 8
-  Assert.AreEqual([], a)
-
-[<Test>]  
-let ``Test 21: Nodes which have access to node 9 (using MGraph)``() =
-  let a = availableIn mgraph 9
-  Assert.AreEqual([3; 8; 4], a)
-
-[<Test>]  
-let ``Test 22: Nodes which have access to node 1 (using LGraph)``() =
-  let a = availableIn lgraph 1
-  Assert.AreEqual([2; 4; 8], a)
-
-[<Test>]  
-let ``Test 23: Nodes which have access to node 2 (using LGraph)``() =
-  let a = availableIn lgraph 2
-  Assert.AreEqual([4; 8], a)
-
-[<Test>]  
-let ``Test 24: Nodes which have access to node 3 (using LGraph)``() =
-  let a = availableIn lgraph 3
-  Assert.AreEqual([8; 9; 4], a)
-
-[<Test>]  
-let ``Test 25: Nodes which have access to node 4 (using LGraph)``() =
-  let a = availableIn lgraph 4
-  Assert.AreEqual([8], a)
-
-[<Test>]  
-let ``Test 26: Nodes which have access to node 5 (using LGraph)``() =
-  let a = availableIn lgraph 5
-  Assert.AreEqual([1; 2; 4; 8], a)
-
-[<Test>]  
-let ``Test 27: Nodes which have access to node 8 (using LGraph)``() =
-  let a = availableIn lgraph 8
-  Assert.AreEqual([], a)
-
-[<Test>]  
-let ``Test 28: Nodes which have access to node 9 (using LGraph)``() =
-  let a = availableIn lgraph 9
-  Assert.AreEqual([3; 8; 4], a)
-
+[<TestCase(1, Result = [|-1|])>]
+let ``Test 08: Nodes which available from  to nodes (using EmptyMGraph)``ex =
+  List.toArray(availableFrom emgraph ex)
 
 
 [<EntryPoint>]
