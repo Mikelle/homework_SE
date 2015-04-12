@@ -63,8 +63,10 @@ let infix_to_postfix (inputFile: string) (outputFile : string) =
           outputStream.WriteLine(stack.Pop())
         ignore (stack.Pop())
       | _ -> 
-        while stack.Length <> 0 && prio (stack.Top()) >= prio cur_char do
-          outputStream.WriteLine(stack.Pop())
+        while stack.Length <> 0 
+          && ((prio (stack.Top()) >= prio cur_char && prio cur_char < 3)
+            || (prio(stack.Top()) > prio cur_char && prio cur_char = 3)) 
+              do outputStream.WriteLine(stack.Pop())
         stack.Push(cur_char)
   while stack.Length <> 0 do 
     outputStream.WriteLine(stack.Pop())
@@ -103,22 +105,17 @@ let evaluate (str: string) =
     |_ -> stack.Push (System.Convert.ToDouble str)
   outstream.Write (stack.Top())
 
-(*let writeVert (fin: StreamReader) (fout: StreamWriter) = 
-  let st = infix_to_postfix (fin.ReadLine())
-  for i in 0..st.Length - 1 do
-    fout.Write("/n" + st.[i].ToString())
-    *)
 let read (filename : string) = 
   use stream = new StreamReader(filename)
   stream.ReadToEnd ()
   
-
 let write (str:string) (filename : string)  = 
   use stream = new StreamWriter (filename)
   stream.Write str
 
-
-[<TestCase ("4 ^ 3 ^ 3", Result = "4\r\n3\r\n^\r\n3\r\n^\r\n")>]
+[<TestCase ("1 - 2 - 3", Result = "1\r\n2\r\n-\r\n3\r\n-\r\n")>]
+[<TestCase ("3 ^ 1 ^ 2", Result = "3\r\n1\r\n2\r\n^\r\n^\r\n")>]
+[<TestCase ("4 ^ 3 ^ 3", Result = "4\r\n3\r\n3\r\n^\r\n^\r\n")>]
 [<TestCase ("2 + 2 * 2", Result = "2\r\n2\r\n2\r\n*\r\n+\r\n")>]
 [<TestCase ("7 * 6 + 5", Result = "7\r\n6\r\n*\r\n5\r\n+\r\n")>]
 [<TestCase ("(7 + 5) * (2 + 3)", Result = "7\r\n5\r\n+\r\n2\r\n3\r\n+\r\n*\r\n")>]
@@ -130,6 +127,8 @@ let ``Test for 37th task`` (expression : string) =
     let str = read outputFile
     str
 
+[<TestCase ("1\n2\n-\n3\n-\n", Result = -4)>]
+[<TestCase ("3\n1\n2\n^\n^\n", Result = 3)>]
 [<TestCase ("5\n5\n+", Result = 10)>]
 [<TestCase ("3\n4\n+\n2\n^\n5\n7\n-\n3\n^\n-", Result = 57)>]
 [<TestCase ("3\n4\n-", Result = -1)>]
