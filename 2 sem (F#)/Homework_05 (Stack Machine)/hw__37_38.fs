@@ -26,7 +26,11 @@ type Stack<'A> () =
     override this.ToString () = sprintf "%A" stack
   end
   
-let infix_to_postfix (str:string) =
+let infix_to_postfix (inputFile: string) (outputFile : string) =
+  use inputStream = new StreamReader(inputFile)
+  use outputStream = new StreamWriter(outputFile)
+  let str = inputStream.ReadToEnd()
+
 
   let prio c =
     match c with
@@ -34,6 +38,7 @@ let infix_to_postfix (str:string) =
     | '+' | '-'      -> 1
     | '*' | '/' | '%'-> 2
     | '^'            -> 3
+    | _              -> -1
 
   let stack = new Stack<char> ()
 
@@ -43,7 +48,7 @@ let infix_to_postfix (str:string) =
     let cur_char =  str.[i] 
     
     if System.Char.IsDigit(cur_char) then
-      postfix <- postfix + cur_char.ToString()
+      outputStream.WriteLine(cur_char)
 
     else
       
@@ -55,14 +60,14 @@ let infix_to_postfix (str:string) =
           stack.Push(cur_char)
       | ')' -> 
         while stack.Length <> 0 && stack.Top() <> '(' do
-          postfix <- postfix +  " " + stack.Pop().ToString() + " "
+          outputStream.WriteLine(stack.Pop())
         ignore (stack.Pop())
       | _ -> 
         while stack.Length <> 0 && prio (stack.Top()) >= prio cur_char do
-          postfix <-  postfix  + stack.Pop().ToString() + " "
+          outputStream.WriteLine(stack.Pop())
         stack.Push(cur_char)
-  while stack.Length <> 0 do postfix <- postfix + " " + stack.Pop().ToString() 
-  postfix
+  while stack.Length <> 0 do 
+    outputStream.WriteLine(stack.Pop())
 
 let evaluate (str: string) = 
   use instream = new StreamReader "test.in"
@@ -95,47 +100,42 @@ let evaluate (str: string) =
       let a = stack.Pop()
       let b = stack.Pop() 
       stack.Push(b ** a)
-    | _ -> stack.Push (System.Convert.ToDouble str)
+    |_ -> stack.Push (System.Convert.ToDouble str)
   outstream.Write (stack.Top())
 
-let writeVert (fin: StreamReader) (fout: StreamWriter) = 
+(*let writeVert (fin: StreamReader) (fout: StreamWriter) = 
   let st = infix_to_postfix (fin.ReadLine())
   for i in 0..st.Length - 1 do
-    fout.Write(st.[i].ToString())
-
+    fout.Write("/n" + st.[i].ToString())
+    *)
 let read (filename : string) = 
   use stream = new StreamReader(filename)
-  let str = stream.ReadToEnd ()
-  str
+  stream.ReadToEnd ()
+  
 
-let write (filename : string) (str:string) = 
+let write (str:string) (filename : string)  = 
   use stream = new StreamWriter (filename)
   stream.Write str
 
 
-[<TestCase ("10 + 11", Result = "10 11 +")>]
-[<TestCase ("4 ^ 3 ^ 3", Result = "4 3 ^ 3 ^")>]
-[<TestCase ("2 + 2 * 2", Result = "2 2 2 * +")>]
-[<TestCase ("7 * 6 + 5", Result = "7 6 * 5 +")>]
-let ``Task 37`` (x: string) =
-  write "test.in" x
-  let w = new StreamWriter("test.in") 
-  w.Write(x)
-  w.Dispose()
-  let sout = new StreamWriter("test.out")
-  let sin = new StreamReader("test.in")
-  writeVert sin sout
-  sin.Dispose()
-  sout.Dispose()
-  let res = read("test.out")
-  res
+[<TestCase ("4 ^ 3 ^ 3", Result = "4\r\n3\r\n^\r\n3\r\n^\r\n")>]
+[<TestCase ("2 + 2 * 2", Result = "2\r\n2\r\n2\r\n*\r\n+\r\n")>]
+[<TestCase ("7 * 6 + 5", Result = "7\r\n6\r\n*\r\n5\r\n+\r\n")>]
+[<TestCase ("(7 + 5) * (2 + 3)", Result = "7\r\n5\r\n+\r\n2\r\n3\r\n+\r\n*\r\n")>]
+let ``Test for 37th task`` (expression : string) =
+    let inputFile = "test.in"
+    let outputFile = "test.out"
+    write expression inputFile
+    infix_to_postfix inputFile outputFile
+    let str = read outputFile
+    str
 
 [<TestCase ("5\n5\n+", Result = 10)>]
 [<TestCase ("3\n4\n+\n2\n^\n5\n7\n-\n3\n^\n-", Result = 57)>]
 [<TestCase ("3\n4\n-", Result = -1)>]
 [<TestCase ("1024\n100\n%", Result = 24)>]
 let ``Task 38`` x =
-  write "test.in" x
+  write x "test.in"
   evaluate "test.in"
   let str = read "result.out"
   System.Convert.ToInt32 str
