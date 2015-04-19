@@ -53,7 +53,7 @@ let filter с tree =
       if с i then yield i else yield! Empty
   }
 
-let calc op (x) (y) =
+let calc op x y =
   treeWorkflow {
     for i in x do
     for j in y do
