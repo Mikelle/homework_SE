@@ -1,5 +1,7 @@
-﻿open Workflow
+﻿module test
 open NUnit.Framework
+open Workflow
+
 
 //test for 40 task
 [<TestCase(5, Result = 0)>]
@@ -45,8 +47,3 @@ let ``calc tree``() =
   let res = calc (*) t1 t2
   Assert.AreEqual (Node(8, Empty, Empty), res)
 
-
-[<EntryPoint>]
-let main argv = 
-    printfn "%A" argv
-    0 // return an integer exit code
