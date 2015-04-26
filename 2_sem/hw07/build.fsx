@@ -5,6 +5,8 @@ open Fake
 let buildDir = "./build/"
 let testDir  = "./test/"
 
+RestorePackages()
+
 Target "Clean" (fun _ ->
   CleanDirs [buildDir; testDir]
 )
@@ -29,14 +31,12 @@ Target "Test" (fun _ ->
            OutputFile = testDir + "TestResults.xml" })
 )
 
-Target "Default" (fun _ ->
-  trace "Default Target."
-)
+
 
 "Clean"
   ==> "BuildApp"
   ==> "BuildTest"
   ==> "Test"
-  ==> "Default"
+ 
 
-RunTargetOrDefault "Default"
+RunTargetOrDefault "Test"

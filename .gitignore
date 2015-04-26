@@ -5,7 +5,7 @@ bin
 obj
 *.fsproj
 AssemblyInfo.fs
-*.config
+*.nuget/
 *packages/
 *.xml
 
