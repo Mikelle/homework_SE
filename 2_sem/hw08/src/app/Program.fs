@@ -28,12 +28,12 @@ let programOutput =
 
 let butDot =
   let but = new Button()
-  but.Text <- "."
+  but.Text <- ","
   but.Size <- System.Drawing.Size(40, 30)
   but.Location <- System.Drawing.Point(0, 120)
   but.Click.Add (fun _ ->
-    if (not (programOutput.Text.Contains(".") || (programOutput.Text.Contains(","))))
-    then programOutput.Text <- programOutput.Text + ".")
+    if not (programOutput.Text.Contains(","))
+    then programOutput.Text <- programOutput.Text + ",")
   but
 
 let butPl =
@@ -42,9 +42,12 @@ let butPl =
   but.Size <- System.Drawing.Size(40, 30)
   but.Location <- System.Drawing.Point(120, 30)
   but.Click.Add(fun _ ->
-    operand1 <- programOutput.Text
-    operation <- '+'
-    programOutput.Text <- "")
+    if operand1 <> "" 
+    then operation <- '+'
+    else
+      operand1 <- programOutput.Text
+      operation <- '+'
+      programOutput.Text <- "")
   but
 
 let butMin =
@@ -53,9 +56,12 @@ let butMin =
   but.Size <- System.Drawing.Size(40, 30)
   but.Location <- System.Drawing.Point(120, 60)
   but.Click.Add(fun _ ->
-    operand1 <- programOutput.Text
-    operation <- '-'
-    programOutput.Text <- "")
+    if operand1 <> "" 
+    then operation <- '-'
+    else
+      operand1 <- programOutput.Text
+      operation <- '-'
+      programOutput.Text <- "")
   but
 
 let butMul =
@@ -64,9 +70,13 @@ let butMul =
   but.Size <- System.Drawing.Size(40, 30)
   but.Location <- System.Drawing.Point(120, 90)
   but.Click.Add(fun _ ->
-    operand1 <- programOutput.Text
-    operation <- '*'
-    programOutput.Text <- "")
+    if operand1 <> "" 
+    then operation <- '*'
+    else
+      operand1 <- programOutput.Text
+      operation <- '*'
+      programOutput.Text <- ""
+    )
   but
 
 let butDiv =
@@ -75,9 +85,12 @@ let butDiv =
   but.Size <- System.Drawing.Size(40, 30)
   but.Location <- System.Drawing.Point(120, 120)
   but.Click.Add(fun _ ->
-    operand1 <- programOutput.Text
-    operation <- '/'
-    programOutput.Text <- "")
+    if operand1 <> "" 
+    then operation <- '/'
+    else
+      operand1 <- programOutput.Text
+      operation <- '/'
+      programOutput.Text <- "")
   but
 
 let butEq =
@@ -92,8 +105,8 @@ let butEq =
     if (operand2 = "") || (operation = ' ')
     then operand1 |> ignore
     else
-      opr1 <- Double.Parse(operand1, CultureInfo.InvariantCulture)
-      opr2 <- Double.Parse(operand2, CultureInfo.InvariantCulture)
+      opr1 <- Double.Parse(operand1)
+      opr2 <- Double.Parse(operand2)
       match operation with
         | '+' ->
           res <- (opr1 + opr2).ToString() 
