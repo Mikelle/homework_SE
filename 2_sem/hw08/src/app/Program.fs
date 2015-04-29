@@ -25,13 +25,16 @@ let programOutput =
   textBox.Location <- System.Drawing.Point(0, 0)
   textBox.Height <- 240
   textBox.Width <- 240 
-  textBox.Font <- new Font(textBox.Font.Name, (19.0F), textBox.Font.Style, textBox.Font.Unit) 
+  textBox.Font <- new Font("Arial", (19.0F), textBox.Font.Style, textBox.Font.Unit) 
   textBox.Text <- "" 
   textBox.ReadOnly <- true
+  textBox.BackColor <- Color.AliceBlue
   textBox
 
 let butDot =
   let but = new Button()
+  but.MouseMove.Add (fun _ -> but.BackColor <- Color.CadetBlue)
+  but.MouseLeave.Add (fun _ -> but.BackColor <- Color.AliceBlue)
   but.Text <- ","
   but.Size <- System.Drawing.Size(40, 30)
   but.Location <- System.Drawing.Point(0, 120)
@@ -42,6 +45,8 @@ let butDot =
 
 let butPl =
   let but = new Button()
+  but.MouseMove.Add (fun _ -> but.BackColor <- Color.CadetBlue)
+  but.MouseLeave.Add (fun _ -> but.BackColor <- Color.AliceBlue)
   but.Text <- "+"
   but.Size <- System.Drawing.Size(40, 30)
   but.Location <- System.Drawing.Point(120, 30)
@@ -56,6 +61,8 @@ let butPl =
 
 let butMin =
   let but = new Button()
+  but.MouseMove.Add (fun _ -> but.BackColor <- Color.CadetBlue)
+  but.MouseLeave.Add (fun _ -> but.BackColor <- Color.AliceBlue)
   but.Text <- "-"
   but.Size <- System.Drawing.Size(40, 30)
   but.Location <- System.Drawing.Point(120, 60)
@@ -70,6 +77,8 @@ let butMin =
 
 let butMul =
   let but = new Button()
+  but.MouseMove.Add (fun _ -> but.BackColor <- Color.CadetBlue)
+  but.MouseLeave.Add (fun _ -> but.BackColor <- Color.AliceBlue)
   but.Text <- "*"
   but.Size <- System.Drawing.Size(40, 30)
   but.Location <- System.Drawing.Point(120, 90)
@@ -85,6 +94,8 @@ let butMul =
 
 let butDiv =
   let but = new Button()
+  but.MouseMove.Add (fun _ -> but.BackColor <- Color.CadetBlue)
+  but.MouseLeave.Add (fun _ -> but.BackColor <- Color.AliceBlue)
   but.Text <- "/"
   but.Size <- System.Drawing.Size(40, 30)
   but.Location <- System.Drawing.Point(120, 120)
@@ -98,7 +109,10 @@ let butDiv =
   but
 
 let butEq =
+
   let but = new Button()
+  but.MouseMove.Add (fun _ -> but.BackColor <- Color.CadetBlue)
+  but.MouseLeave.Add (fun _ -> but.BackColor <- Color.AliceBlue)
   but.Text <- "="
   but.Size <- System.Drawing.Size(40, 30)
   but.Location <- System.Drawing.Point(80, 120)
@@ -140,6 +154,8 @@ let butEq =
 
 let butClear =
   let but = new Button()
+  but.MouseMove.Add (fun _ -> but.BackColor <- Color.CadetBlue)
+  but.MouseLeave.Add (fun _ -> but.BackColor <- Color.AliceBlue)
   but.Text <- "C"
   but.Size <- System.Drawing.Size(40, 30)             
   but.Location <- System.Drawing.Point(160, 30)
@@ -153,6 +169,8 @@ let butClear =
 
 let butSqrt =
   let but = new Button()
+  but.MouseMove.Add (fun _ -> but.BackColor <- Color.CadetBlue)
+  but.MouseLeave.Add (fun _ -> but.BackColor <- Color.AliceBlue)
   but.Text <- "√"
   but.Size <- System.Drawing.Size(40, 30)
   but.Location <- System.Drawing.Point(160, 60)
@@ -165,6 +183,8 @@ let butSqrt =
 
 let butSin =
   let but = new Button()
+  but.MouseMove.Add (fun _ -> but.BackColor <- Color.CadetBlue)
+  but.MouseLeave.Add (fun _ -> but.BackColor <- Color.AliceBlue)
   but.Text <- "sin"
   but.Size <- System.Drawing.Size(40, 30)
   but.Location <- System.Drawing.Point(200, 30)
@@ -177,6 +197,8 @@ let butSin =
 
 let butCos =
   let but = new Button()
+  but.MouseMove.Add (fun _ -> but.BackColor <- Color.CadetBlue)
+  but.MouseLeave.Add (fun _ -> but.BackColor <- Color.AliceBlue)
   but.Text <- "cos"
   but.Size <- System.Drawing.Size(40, 30)
   but.Location <- System.Drawing.Point(200, 60)
@@ -189,6 +211,8 @@ let butCos =
 
 let butTg =
   let but = new Button()
+  but.MouseMove.Add (fun _ -> but.BackColor <- Color.CadetBlue)
+  but.MouseLeave.Add (fun _ -> but.BackColor <- Color.AliceBlue)
   but.Text <- "tan"
   but.Size <- System.Drawing.Size(40, 30)
   but.Location <- System.Drawing.Point(200, 90)
@@ -201,6 +225,8 @@ let butTg =
 
 let butCtg =
   let but = new Button()
+  but.MouseMove.Add (fun _ -> but.BackColor <- Color.CadetBlue)
+  but.MouseLeave.Add (fun _ -> but.BackColor <- Color.AliceBlue)
   but.Text <- "ctan"
   but.Size <- System.Drawing.Size(40, 30)
   but.Location <- System.Drawing.Point(200, 120)
@@ -213,6 +239,8 @@ let butCtg =
 
 let butPlMin =
   let but = new Button()
+  but.MouseMove.Add (fun _ -> but.BackColor <- Color.CadetBlue)
+  but.MouseLeave.Add (fun _ -> but.BackColor <- Color.AliceBlue)
   but.Text <- "±"
   but.Size <- System.Drawing.Size(40, 30)
   but.Location <- System.Drawing.Point(160, 90)
@@ -225,6 +253,8 @@ let butPlMin =
 
 let butDel = 
   let but = new Button()
+  but.MouseMove.Add (fun _ -> but.BackColor <- Color.CadetBlue)
+  but.MouseLeave.Add (fun _ -> but.BackColor <- Color.AliceBlue)
   but.Text <- "←"
   but.Size <- System.Drawing.Size(40, 30)
   but.Location <- System.Drawing.Point(160, 120)
@@ -237,6 +267,8 @@ let butDel =
 
 let rec decButton  =
   let but = new Button()
+  but.MouseMove.Add (fun _ -> but.BackColor <- Color.CadetBlue)
+  but.MouseLeave.Add (fun _ -> but.BackColor <- Color.AliceBlue)
   but.Text <- "Dec"
   but.Location <- Point(0, 150)
   but.Size <- Size(80, 30)
@@ -265,6 +297,8 @@ let rec decButton  =
   
 let rec binButton =
   let but = new Button()
+  but.MouseMove.Add (fun _ -> but.BackColor <- Color.CadetBlue)
+  but.MouseLeave.Add (fun _ -> but.BackColor <- Color.AliceBlue)
   but.Text <- "Bin"
   but.Location <- Point(80, 150)
   but.Size <- Size(80, 30)
@@ -294,6 +328,8 @@ let rec binButton =
 
 let rec hexButton =
   let but = new Button()
+  but.MouseMove.Add (fun _ -> but.BackColor <- Color.CadetBlue)
+  but.MouseLeave.Add (fun _ -> but.BackColor <- Color.AliceBlue)
   but.Text <- "Hex"
   but.Size <- Size(80, 30)
   but.Location <- Point(160, 150)
@@ -328,6 +364,8 @@ let mainForm =
   form.ClientSize <- Size(240, 180)
   form.MaximumSize <- Size(256, 219)
   form.MinimumSize <- Size(256, 189)
+  form.BackColor <- Color.AliceBlue
+  form.Font <- new Font("Arial", 10.0f)
   for x in 0..9 do
     let but = new Button()
     but.Text <- x.ToString()
@@ -344,7 +382,8 @@ let mainForm =
       | 8 -> but.Location <- System.Drawing.Point(40, 90)     
       | 9 -> but.Location <- System.Drawing.Point(80, 90)
       | _ -> failwith ""
-      
+    but.MouseMove.Add (fun _ -> but.BackColor <- Color.CadetBlue)
+    but.MouseLeave.Add (fun _ -> but.BackColor <- Color.AliceBlue)
     but.Click.Add(fun _ -> 
       if programOutput.Text = "0"
       then programOutput.Text <- x.ToString()
