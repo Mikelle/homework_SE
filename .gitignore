@@ -1,0 +1,13 @@
+*.sln
+*.userprefs
+*~
+bin
+obj
+*.fsproj
+AssemblyInfo.fs
+*.nuget/
+*packages/
+*.xml
+
+
+
