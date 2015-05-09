@@ -4,7 +4,7 @@ open NUnit.Framework
 [<TestCase(1, [|1; 2; 3; 4|], Result = 4)>]
 [<TestCase(2, [|1; 2; 3; 4|], Result = 4)>]
 [<TestCase(3, [|4; 3; 2; 1|], Result = 4)>]
-[<TestCase(4, [|7; 2; 8; 6|], Result = 8)>]
+[<TestCase(4, [|7; 2; 8; 6; 11|], Result = 11)>]
 let TestMax n arr =
   max n arr
 

@@ -3,23 +3,20 @@
 open System.Threading
 
 let maxInArr (arr : int []) l r : int =
-  let mutable res = arr.[0]
-  for i in l .. r do
+  let mutable res = arr.[l]
+  for i in l + 1 .. r do
     if res < arr.[i]
     then res <- arr.[i]
   res
 
 let max threadNumber (arr:int[]) =
   let arraySize = arr.Length 
-  let res  = ref arr.[0]
   let step = arraySize / threadNumber
+  let res  = ref (maxInArr arr (arr.Length - step) (arr.Length - 1))
   let threadArray = Array.init threadNumber (fun i ->
     new Thread(ThreadStart(fun _ ->
       let threadRes = maxInArr arr (i * step) ((i + 1) * step - 1)
-      Monitor.Enter(res)
-      if !res < threadRes
-      then res := threadRes
-      Monitor.Exit(res)
+      lock res (fun _ -> if !res < threadRes then res := threadRes)
       ))
     ) 
   for t in threadArray do
@@ -51,7 +48,6 @@ let calcIntegral (f : double -> double) l r step threadNumber =
   for t in threadArray do
     t.Join()
   res.Value
-
 
 let duration s f = 
   let timer = new System.Diagnostics.Stopwatch()
