@@ -3,7 +3,7 @@
 *~
 bin
 obj
-
+*.exe.config
 AssemblyInfo.fs
 *.nuget/
 *packages/
