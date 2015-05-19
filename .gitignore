@@ -3,7 +3,7 @@
 *~
 bin
 obj
-*.fsproj
+*.exe.config
 AssemblyInfo.fs
 *.nuget/
 *packages/
